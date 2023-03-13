@@ -1,23 +1,21 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import Axios from 'axios';
 import './App.css';
+import { useEffect } from 'react';
 
 function App() {
+  const [apiQuestion, setApiQuestion] = useState('');
+
+  const fetchQuestion = () => {
+    Axios.get('https://opentdb.com/api.php?amount=1').then((res) => {
+      setApiQuestion(res.data.results[0].question);
+    });
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <button onClick={fetchQuestion}>New Question</button>
+      <p>{apiQuestion}</p>
     </div>
   );
 }
